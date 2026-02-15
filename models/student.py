@@ -19,7 +19,8 @@ class Student(User):
         '''Enroll the student in a new course'''
         self.courses.append(course)
         print(f"{self.name} enrolled in {course}")
-
+        
     def submit_task(self, task_name):
         '''Submit a task for a course '''
         print(f"{self.name} submitted task: {task_name}")
+    
