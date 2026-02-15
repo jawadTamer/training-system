@@ -18,3 +18,11 @@ class User:
     def login(self):
         '''Simulates user login action'''
         print(f"{self.name} logged in successfully.")
+
+    def to_dict(self):
+        return {
+            "user_id": self.user_id,
+            "name": self.name,
+            "email": self.email,
+            "role": self.role
+        }
