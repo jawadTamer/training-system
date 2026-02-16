@@ -13,3 +13,11 @@ class Submission:
 
     def __str__(self):
         return f"Submission by {self.student.name} for {self.task.title}"
+    
+    def to_dict(self):
+        return {
+            "task_id": self.task.task_id,
+            "student_id": self.student.user_id,
+            "content": self.content,
+            "grade": self.grade
+        }

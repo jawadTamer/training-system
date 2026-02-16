@@ -1,20 +1,32 @@
 from models.user import User
-
+from models.task import Task        
+        
 class Instructor(User):
-    '''Instructor class inherits from User
-    Represents an instructor in the training system'''
+    '''Instructor class inherits from User.'''
 
     def __init__(self, user_id, name, email):
-        ''' Constructor: initializes instructor with basic info'''
+        '''Constructor: initializes instructor with basic info'''
         super().__init__(user_id, name, email)
         self.role = "Instructor"
 
+    def create_task(self, course, title, description):
+        '''Creates a new Task object and adds it to a specific course.'''
+        new_task = Task(title, description, self)
+        
+        course.add_task(new_task)
+        
+        print(f"Instructor {self.name} created task: '{title}' for course: {course.course_name}")
+        return new_task
 
-    def create_task(self, task_name):
-        ''' Create a new task/assignment'''
-        print(f"Instructor {self.name} created task: {task_name}")
+    def grade_submission(self, submission, grade):
+        '''Assigns a grade to a specific student submission.'''
+        if submission.task.instructor != self:
+            raise PermissionError("You cannot grade this task.")
+        
+        if not (0 <= grade <= 100):
+            raise ValueError("Grade must be between 0 and 100.")
 
-    
-    def grade_student(self, student_name, grade):
-        '''Grade a student's task'''
-        print(f"{self.name} graded {student_name} with {grade}")
+        submission.grade = grade
+
+    def to_dict(self):
+        return super().to_dict()

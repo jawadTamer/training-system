@@ -1,6 +1,32 @@
 {
-  "users": [
-  ],
-  "tasks": [],
-  "submissions": []
+    "users": [
+        {
+            "user_id": "9fa05c8d-0b1b-4929-b543-d4ec71ead436",
+            "name": "Ahmed",
+            "email": "ahmed@mail.com",
+            "role": "Instructor"
+        },
+        {
+            "user_id": "dd30940d-a0bd-491e-acf9-77457516af36",
+            "name": "Ali",
+            "email": "ali@mail.com",
+            "role": "Student",
+            "courses": [
+                "0adc102c-2cae-4d00-8ae2-dfd6257c8d41"
+            ]
+        }
+    ],
+    "courses": [
+        {
+            "course_id": "0adc102c-2cae-4d00-8ae2-dfd6257c8d41",
+            "course_name": "Machine Learning",
+            "instructor_id": "9fa05c8d-0b1b-4929-b543-d4ec71ead436",
+            "students": [
+                "dd30940d-a0bd-491e-acf9-77457516af36"
+            ],
+            "tasks": [
+                6171637302254322646
+            ]
+        }
+    ]
 }
