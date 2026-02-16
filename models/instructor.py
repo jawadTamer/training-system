@@ -4,9 +4,9 @@ from models.task import Task
 class Instructor(User):
     '''Instructor class inherits from User.'''
 
-    def __init__(self, user_id, name, email):
+    def __init__(self, user_id, name, email, password=None):
         '''Constructor: initializes instructor with basic info'''
-        super().__init__(user_id, name, email)
+        super().__init__(user_id, name, email, password)
         self.role = "Instructor"
 
     def create_task(self, course, title, description):

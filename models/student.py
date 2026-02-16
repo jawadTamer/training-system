@@ -3,9 +3,9 @@ from models.submission import Submission
 
 class Student(User):
     '''Student class inherits from User Represents a student in the training system'''
-    def __init__(self, user_id, name, email):
+    def __init__(self, user_id, name, email, password=None):
         '''Constructor: initializes student with basic info and courses'''
-        super().__init__(user_id, name, email)
+        super().__init__(user_id, name, email, password)
         self.role = "Student"
         self.courses = []
 

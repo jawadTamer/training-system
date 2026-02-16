@@ -1,32 +1,66 @@
 {
-    "users": [
-        {
-            "user_id": "9fa05c8d-0b1b-4929-b543-d4ec71ead436",
-            "name": "Ahmed",
-            "email": "ahmed@mail.com",
-            "role": "Instructor"
-        },
-        {
-            "user_id": "dd30940d-a0bd-491e-acf9-77457516af36",
-            "name": "Ali",
-            "email": "ali@mail.com",
-            "role": "Student",
-            "courses": [
-                "0adc102c-2cae-4d00-8ae2-dfd6257c8d41"
-            ]
-        }
-    ],
-    "courses": [
-        {
-            "course_id": "0adc102c-2cae-4d00-8ae2-dfd6257c8d41",
-            "course_name": "Machine Learning",
-            "instructor_id": "9fa05c8d-0b1b-4929-b543-d4ec71ead436",
-            "students": [
-                "dd30940d-a0bd-491e-acf9-77457516af36"
-            ],
-            "tasks": [
-                6171637302254322646
-            ]
-        }
-    ]
+  "users": [
+    {
+      "user_id": "9fa05c8d-0b1b-4929-b543-d4ec71ead436",
+      "name": "Ahmed",
+      "email": "ahmed@mail.com",
+      "role": "Instructor",
+      "password": "instructor123"
+    },
+    {
+      "user_id": "dd30940d-a0bd-491e-acf9-77457516af36",
+      "name": "Ali",
+      "email": "ali@mail.com",
+      "role": "Student",
+      "password": "student123",
+      "courses": [
+        "0adc102c-2cae-4d00-8ae2-dfd6257c8d41"
+      ]
+    }
+  ],
+  "courses": [
+    {
+      "course_id": "0adc102c-2cae-4d00-8ae2-dfd6257c8d41",
+      "course_name": "Machine Learning",
+      "instructor_id": "9fa05c8d-0b1b-4929-b543-d4ec71ead436",
+      "students": [
+        "dd30940d-a0bd-491e-acf9-77457516af36"
+      ],
+      "tasks": [
+        6171637302254322646
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "task_id": 1,
+      "title": "HW1",
+      "description": "Linear Regression Assignment",
+      "course_name": "Machine Learning",
+      "instructor_name": "Ahmed"
+    },
+    {
+      "task_id": 2,
+      "title": "HW2",
+      "description": "Logistic Regression Assignment",
+      "course_name": "Machine Learning",
+      "instructor_name": "Ahmed"
+    }
+  ],
+  "submissions": [
+    {
+      "id": 1,
+      "student_name": "Ali",
+      "task_title": "HW1",
+      "content": "ghjklagyayaf",
+      "grade": null
+    },
+    {
+      "id": 2,
+      "student_name": "Ali",
+      "task_title": "HW2",
+      "content": "hglk\r\n",
+      "grade": null
+    }
+  ]
 }
