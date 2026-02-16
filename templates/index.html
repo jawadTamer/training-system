@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Home | Training System{% endblock %}
+{% block content %}
+<div class="text-center">
+	<h1 class="mb-4">Welcome to the Training System</h1>
+	<p class="lead">Manage courses, tasks, submissions, and users efficiently.</p>
+	<div class="row justify-content-center mt-5">
+		<div class="col-md-3">
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<h5 class="card-title">Tasks</h5>
+					<p class="card-text">View and manage all tasks.</p>
+					<a href="/tasks" class="btn btn-primary w-100">Go to Tasks</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<h5 class="card-title">Submissions</h5>
+					<p class="card-text">Review and grade submissions.</p>
+					<a href="/submissions" class="btn btn-success w-100">Go to Submissions</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<h5 class="card-title">Submit Task</h5>
+					<p class="card-text">Submit your work for review.</p>
+					<a href="/submit" class="btn btn-warning w-100">Submit Now</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
