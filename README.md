@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Training System
 
 A web-based training and course management system built with Flask. This application enables instructors to create and manage courses while students can enroll, view tasks, and submit assignments.
