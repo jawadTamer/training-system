@@ -1,6 +1,17 @@
+from functools import wraps
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get("user_id"):
+            return redirect(url_for("login"))
+        return f(*args, **kwargs)
+    return decorated_function
+
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from core.storage import load_data, save_data
 import os
+from uuid import uuid4
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key")
@@ -12,7 +23,8 @@ def save(data):
     save_data(data)
 
 @app.route("/")
-def index():
+@login_required
+def home():
     return render_template("index.html")
 
 @app.route("/login", methods=["GET", "POST"])
@@ -27,7 +39,7 @@ def login():
             session["role"] = user["role"]
             session["name"] = user["name"]
             flash("Logged in successfully.")
-            return redirect(url_for("index"))
+            return redirect(url_for("home"))
         else:
             flash("Invalid email or password.")
     return render_template("login.html")
@@ -39,6 +51,7 @@ def logout():
     return redirect(url_for("login"))
 
 @app.route("/tasks", methods=["GET", "POST"])
+@login_required
 def tasks():
     data = get_data()
     if request.method == "POST":
@@ -72,6 +85,7 @@ def tasks():
     return render_template("tasks.html", tasks=tasks)
 
 @app.route("/submissions", methods=["GET"])
+@login_required
 def submissions():
     data = get_data()
     submissions = []
@@ -86,7 +100,11 @@ def submissions():
     return render_template("submissions.html", submissions=submissions)
 
 @app.route("/grade/<submission_id>", methods=["POST"])
+@login_required
 def grade_submission(submission_id):
+    if session.get("role") != "Instructor":
+        flash("Only instructors can grade submissions.")
+        return redirect(url_for("submissions"))
     data = get_data()
     grade = request.form.get("grade")
     for s in data.get("submissions", []):
@@ -98,6 +116,7 @@ def grade_submission(submission_id):
     return redirect(url_for("submissions"))
 
 @app.route("/submit", methods=["GET", "POST"])
+@login_required
 def submit():
     data = get_data()
     tasks = data.get("tasks", [])
@@ -130,14 +149,99 @@ def submit():
         else:
             flash("Invalid user or task.")
     return render_template("submit.html", tasks=tasks)
-# Profile route to display user data after login
+
 @app.route("/profile")
+@login_required
 def profile():
-    if "user_id" not in session:
-        return redirect(url_for("login"))
     data = get_data()
     user = next((u for u in data["users"] if u["user_id"] == session["user_id"]), None)
     return render_template("profile.html", user=user)
+# Register route
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    data = get_data()
+    if request.method == "POST":
+        name = request.form["name"]
+        email = request.form["email"]
+        password = request.form["password"]
+        role = request.form["role"]
+        if any(u["email"] == email for u in data["users"]):
+            flash("Email already registered.")
+            return render_template("register.html")
+        user_id = str(uuid4())
+        user = {
+            "user_id": user_id,
+            "name": name,
+            "email": email,
+            "password": password,
+            "role": role
+        }
+        data["users"].append(user)
+        save(data)
+        flash("Account created. Please login.")
+        return redirect(url_for("login"))
+    return render_template("register.html")
+
+# Courses page: list, add, enroll
+@app.route("/courses", methods=["GET", "POST"])
+@login_required
+def courses():
+    data = get_data()
+    user_id = session.get("user_id")
+    role = session.get("role")
+    user = next((u for u in data["users"] if u["user_id"] == user_id), None)
+    if request.method == "POST" and role == "Instructor":
+        course_name = request.form["course_name"]
+        course_id = str(uuid4())
+        new_course = {
+            "course_id": course_id,
+            "course_name": course_name,
+            "instructor_id": user_id,
+            "students": [],
+            "tasks": []
+        }
+        data.setdefault("courses", []).append(new_course)
+        save(data)
+        flash("Course added successfully.")
+        return redirect(url_for("courses"))
+    # GET: list courses
+    courses = []
+    for c in data.get("courses", []):
+        instructor = next((u for u in data["users"] if u["user_id"] == c["instructor_id"]), None)
+        enrolled = False
+        if role == "Student" and user:
+            enrolled = c["course_id"] in (user.get("courses") or [])
+        courses.append({
+            "course_id": c["course_id"],
+            "course_name": c["course_name"],
+            "instructor_name": instructor["name"] if instructor else "Unknown",
+            "enrolled": enrolled
+        })
+    return render_template("courses.html", courses=courses)
+
+# Student enrolls in a course
+@app.route("/enroll", methods=["POST"])
+@login_required
+def enroll():
+    data = get_data()
+    user_id = session.get("user_id")
+    course_id = request.form.get("course_id")
+    user = next((u for u in data["users"] if u["user_id"] == user_id), None)
+    course = next((c for c in data.get("courses", []) if c["course_id"] == course_id), None)
+    if not user or not course or user["role"] != "Student":
+        flash("Invalid enrollment request.")
+        return redirect(url_for("courses"))
+    if "courses" not in user:
+        user["courses"] = []
+    if course_id not in user["courses"]:
+        user["courses"].append(course_id)
+    if "students" not in course:
+        course["students"] = []
+    if user_id not in course["students"]:
+        course["students"].append(user_id)
+    save(data)
+    flash("Enrolled in course successfully.")
+    return redirect(url_for("courses"))
 
 if __name__ == "__main__":
     app.run(debug=True)
