@@ -1,41 +1,55 @@
-{% extends 'base.html' %}
-{% block title %}Submissions | Training System{% endblock %}
-{% block content %}
+{% extends 'base.html' %} {% block title %}Submissions | Training System{%
+endblock %} {% block content %}
 <h2 class="mb-4">All Submissions</h2>
 <div class="table-responsive">
-	<table class="table table-striped table-hover">
-		<thead class="table-dark">
-			<tr>
-				<th>Student</th>
-				<th>Task</th>
-				<th>Submission</th>
-				<th>Grade</th>
-				<th>Action</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for submission in submissions %}
-			<tr>
-				<td>{{ submission.student_name }}</td>
-				<td>{{ submission.task_title }}</td>
-				<td>{{ submission.content }}</td>
-				<td>{% if submission.grade is not none %}{{ submission.grade }}{% else %}<span class="text-muted">Ungraded</span>{% endif %}</td>
-				<td>
-					{% if submission.grade is none %}
-					<form method="post" action="/grade/{{ submission.id }}" class="d-flex">
-						<input type="number" name="grade" min="0" max="100" class="form-control form-control-sm me-2" placeholder="Grade" required />
-						<button type="submit" class="btn btn-success btn-sm">Grade</button>
-					</form>
-					{% else %}
-					<span class="text-success">Graded</span>
-					{% endif %}
-				</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+  <table class="table table-striped table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Student</th>
+        <th>Task</th>
+        <th>Submission</th>
+        <th>Grade</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for submission in submissions %}
+      <tr>
+        <td>{{ submission.student_name }}</td>
+        <td>{{ submission.task_title }}</td>
+        <td>{{ submission.content }}</td>
+        <td>
+          {% if submission.grade is not none %}{{ submission.grade }}{% else
+          %}<span class="text-muted">Ungraded</span>{% endif %}
+        </td>
+        <td>
+          {% if submission.grade is none and session.get('role') == 'Instructor'
+          %}
+          <form
+            method="post"
+            action="/grade/{{ submission.id }}"
+            class="d-flex"
+          >
+            <input
+              type="number"
+              name="grade"
+              min="0"
+              max="100"
+              class="form-control form-control-sm me-2"
+              placeholder="Grade"
+              required
+            />
+            <button type="submit" class="btn btn-success btn-sm">Grade</button>
+          </form>
+          {% elif submission.grade is not none %}
+          <span class="text-success">Graded</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 {% if submissions|length == 0 %}
 <div class="alert alert-info">No submissions found.</div>
-{% endif %}
-{% endblock %}
+{% endif %} {% endblock %}

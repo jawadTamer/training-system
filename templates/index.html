@@ -23,6 +23,7 @@
 				</div>
 			</div>
 		</div>
+	{% if session.get('role') == 'Student' %}
 		<div class="col-md-3">
 			<div class="card shadow-sm">
 				<div class="card-body">
@@ -32,6 +33,7 @@
 				</div>
 			</div>
 		</div>
+	{% endif %}
 	</div>
 </div>
 {% endblock %}

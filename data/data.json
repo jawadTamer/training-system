@@ -14,8 +14,16 @@
       "role": "Student",
       "password": "student123",
       "courses": [
-        "0adc102c-2cae-4d00-8ae2-dfd6257c8d41"
+        "0adc102c-2cae-4d00-8ae2-dfd6257c8d41",
+        "072e452d-3740-4c55-8618-b209dc484138"
       ]
+    },
+    {
+      "user_id": "247215aa-02cf-4e0c-a813-393c55bf9bf0",
+      "name": "jawad",
+      "email": "jawadtamer97@gmail.com",
+      "password": "jawad1234",
+      "role": "Instructor"
     }
   ],
   "courses": [
@@ -29,6 +37,15 @@
       "tasks": [
         6171637302254322646
       ]
+    },
+    {
+      "course_id": "072e452d-3740-4c55-8618-b209dc484138",
+      "course_name": "flask",
+      "instructor_id": "247215aa-02cf-4e0c-a813-393c55bf9bf0",
+      "students": [
+        "dd30940d-a0bd-491e-acf9-77457516af36"
+      ],
+      "tasks": []
     }
   ],
   "tasks": [
@@ -53,13 +70,20 @@
       "student_name": "Ali",
       "task_title": "HW1",
       "content": "ghjklagyayaf",
-      "grade": null
+      "grade": 1
     },
     {
       "id": 2,
       "student_name": "Ali",
       "task_title": "HW2",
       "content": "hglk\r\n",
+      "grade": 3
+    },
+    {
+      "id": 3,
+      "student_name": "Ali",
+      "task_title": "HW1",
+      "content": "jjjjjjjjjjjjjjjjjj",
       "grade": null
     }
   ]
