@@ -430,24 +430,3 @@ This project demonstrates:
 This project is open source and available for educational and demonstration purposes.
 
 ---
-
-## 👨‍💻 Author
-
-**Jawad Tamer**
-
-- GitHub: [@jawadTamer](https://github.com/jawadTamer)
-
----
-
-## 📞 Support
-
-For issues, questions, or suggestions:
-1. Check existing GitHub issues
-2. Create a new issue with detailed information
-3. Include error messages and steps to reproduce
-
----
-
-## 🙏 Acknowledgments
-
-This project serves as an educational example of clean code architecture and best practices in Python web development.
